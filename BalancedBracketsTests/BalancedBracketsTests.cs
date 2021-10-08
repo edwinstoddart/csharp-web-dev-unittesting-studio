@@ -17,27 +17,15 @@ namespace BalancedBracketsTests
 
         // Positive Test Cases
         [TestMethod]
+        public void EmptyStringReturnsTrueForSomeReason()
+        {
+            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets(""));
+        }
+
+        [TestMethod]
         public void OnlyBracketsReturnTrue()
         {
             Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("[]"));
-        }
-
-        [TestMethod]
-        public void BracketsSurroundingWordReturnsTrue()
-        {
-            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("[word]"));
-        }
-
-        [TestMethod]
-        public void WordsSurroundingBracketsReturnsTrue()
-        {
-            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("words[]words"));
-        }
-
-        [TestMethod]
-        public void WordsInsideAndSurroundingBracketsReturnsTrue()
-        {
-            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("words[words]words"));
         }
 
         [TestMethod]
@@ -47,9 +35,21 @@ namespace BalancedBracketsTests
         }
 
         [TestMethod]
-        public void EmptyStringReturnsTrueForSomeReason()
+        public void WordPrecedingBracketsReturnsTrue()
         {
-            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets(""));
+            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("word[]"));
+        }
+
+        [TestMethod]
+        public void WordFollowingBracketsReturnsTrue()
+        {
+            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("[]word"));
+        }
+
+        [TestMethod]
+        public void BracketsSurroundingWordReturnsTrue()
+        {
+            Assert.IsTrue(BalancedBrackets.HasBalancedBrackets("[word]"));
         }
 
         // Negative Test Cases
@@ -66,9 +66,9 @@ namespace BalancedBracketsTests
         }
 
         [TestMethod]
-        public void TwoOpeningBracketsAndOneClosingBracketReturnsFalse()
+        public void ReversedBracketsReturnFalse()
         {
-            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("[[]"));
+            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("]["));
         }
 
         [TestMethod]
@@ -78,15 +78,24 @@ namespace BalancedBracketsTests
         }
 
         [TestMethod]
-        public void WordBetweenReversedOrderBracketsReturnsFalse()
+        public void TwoOpeningBracketsAndOneClosingBracketReturnsFalse()
         {
-            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("]word["));
+            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("[[]"));
         }
 
         [TestMethod]
-        public void OnlyReversedBracketsReturnsFalse()
+        public void TwoClosingOneOpeningBracketsReturnsFalse()
         {
-            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("]["));
+            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("]]["));
         }
-}
+
+        [TestMethod]
+        public void OneClosingTwoOpeningBracketsReturnsFalse()
+        {
+            Assert.IsFalse(BalancedBrackets.HasBalancedBrackets("][["));
+        }
+
+
+        // NTC: "[", "]", "[]]", "[[]", "]][", "][["
+    }
 }
